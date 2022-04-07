@@ -47,9 +47,11 @@ class GameView extends StatelessWidget {
                       ),
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
-                      onTap: () {
-                        context.read<GameCubit>().changeColor(__);
-                      },
+                      onTap: context.watch<GameCubit>().isTap
+                          ? () {
+                              context.read<GameCubit>().changeColor(__);
+                            }
+                          : null,
                     );
                   },
                   itemCount: context.watch<GameCubit>().nums.length,
@@ -57,9 +59,11 @@ class GameView extends StatelessWidget {
               ),
               ElevatedButton(
                 child: const Text("Start game"),
-                onPressed: () {
-                  context.read<GameCubit>().generateRandom();
-                },
+                onPressed: context.watch<GameCubit>().isTab
+                    ? () {
+                        context.read<GameCubit>().generateRandom();
+                      }
+                    : null,
               )
             ],
           );

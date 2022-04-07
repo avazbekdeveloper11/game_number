@@ -11,6 +11,8 @@ class GameCubit extends Cubit<GameState> {
   List<int> numsSort = [];
   List<Color> colors = [];
   Color textColor = Colors.black;
+  bool isTab = true;
+  bool isTap = false;
 
   generateRandom() {
     bool generate = true;
@@ -38,21 +40,25 @@ class GameCubit extends Cubit<GameState> {
   }
 
   changeColor(int index) {
-    if (nums[index] == numsSort[i]) {
-      i++;
+    print("object");
+    print(nums);
+    print(numsSort);
+    if (numsSort[0] == nums[index]) {
       colors[index] = Colors.transparent;
-      if (i == 5) {
-        Future.delayed(const Duration(seconds: 3), () => generateRandom());
-      }
-    } else {
-      colors[index] = Colors.red;
+      numsSort.removeAt(0);
+    } else if (numsSort.isEmpty) {
+      isTab = true;
+      isTap = false;
+      generateRandom();
     }
     emit(ChangeColorState());
   }
 
   changeTextColor() async {
+    isTab = false;
     await Future.delayed(
         const Duration(seconds: 5), () => textColor = Colors.transparent);
+    isTap = true;
     emit(ChangeTextColorState());
   }
 }
